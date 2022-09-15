@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: MIT
+/*This is the currency of the TribeVerse visit fablesofcrypto.xyz for more info
+Support us. We'll make it worthy. More than 7 products, 3 layers of value. Doxxed founder.
+*/
 pragma solidity ^0.8.1;
 
 /**
@@ -1227,6 +1230,7 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     }
 }
 
+
 pragma solidity ^0.8.0;
 
 //import "../ERC1155.sol";
@@ -1292,26 +1296,148 @@ abstract contract ERC1155Supply is ERC1155 {
     }
 }
 
+
+pragma solidity >=0.6.4;
+
+interface IERC20 {
+    /**
+     * @dev Returns the amount of tokens in existence.
+     */
+    function totalSupply() external view returns (uint256);
+
+    /**
+     * @dev Returns the token decimals.
+     */
+    function decimals() external view returns (uint8);
+
+    /**
+     * @dev Returns the token symbol.
+     */
+    function symbol() external view returns (string memory);
+
+    /**
+     * @dev Returns the token name.
+     */
+    function name() external view returns (string memory);
+
+    /**
+     * @dev Returns the ERC token owner.
+     */
+    function getOwner() external view returns (address);
+
+    /**
+     * @dev Returns the amount of tokens owned by `account`.
+     */
+    function balanceOf(address account) external view returns (uint256);
+
+    /**
+     * @dev Moves `amount` tokens from the caller's account to `recipient`.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a {Transfer} event.
+     */
+    function transfer(address recipient, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Returns the remaining number of tokens that `spender` will be
+     * allowed to spend on behalf of `owner` through {transferFrom}. This is
+     * zero by default.
+     *
+     * This value changes when {approve} or {transferFrom} are called.
+     */
+    function allowance(address _owner, address spender) external view returns (uint256);
+
+    /**
+     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * IMPORTANT: Beware that changing an allowance with this method brings the risk
+     * that someone may use both the old and the new allowance by unfortunate
+     * transaction ordering. One possible solution to mitigate this race
+     * condition is to first reduce the spender's allowance to 0 and set the
+     * desired value afterwards:
+     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+     *
+     * Emits an {Approval} event.
+     */
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+     * allowance mechanism. `amount` is then deducted from the caller's
+     * allowance.
+     *
+     * Returns a boolean value indicating whether the operation succeeded.
+     *
+     * Emits a {Transfer} event.
+     */
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Emitted when `value` tokens are moved from one account (`from`) to
+     * another (`to`).
+     *
+     * Note that `value` may be zero.
+     */
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    /**
+     * @dev Emitted when the allowance of a `spender` for an `owner` is set by
+     * a call to {approve}. `value` is the new allowance.
+     */
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+
+pragma solidity >=0.4.0;
+
+/**
+ * @dev Implementation of the {IERC20} interface.
+ *
+ * This implementation is agnostic to the way tokens are created. This means
+ * that a supply mechanism has to be added in a derived contract using {_mint}.
+ * For a generic mechanism see {ERC20PresetMinterPauser}.
+ *
+ * TIP: For a detailed writeup see our guide
+ * https://forum.zeppelin.solutions/t/how-to-implement-ERC20-supply-mechanisms/226[How
+ * to implement supply mechanisms].
+ *
+ * We have followed general OpenZeppelin guidelines: functions revert instead
+ * of returning `false` on failure. This behavior is nonetheless conventional
+ * and does not conflict with the expectations of ERC20 applications.
+ *
+ * Additionally, an {Approval} event is emitted on calls to {transferFrom}.
+ * This allows applications to reconstruct the allowance for all accounts just
+ * by listening to said events. Other implementations of the EIP may not emit
+ * these events, as it isn't required by the specification.
+ *
+ * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
+ * functions have been added to mitigate the well-known issues around setting
+ * allowances. See {IERC20-approve}.
+ */
+
+
 pragma solidity ^0.8.4;
 
 //import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-contract FablesOfCrypto is ERC1155Supply, Ownable {
-
+contract FablesOfCrypto is  ERC1155Supply, Ownable {
+    //Creates interface for GOLD
+    address public GOLD = 0xd9145CCE52D386f254917e481eB44e9943F39138;
+    IERC20 ierc20GOLD = IERC20(GOLD);
 	//Contract name
 	string public name;
 	//Symbol
 	string public symbol;
 
     //Initial ASSETS
-    uint256 public constant GOLD = 0;
-    uint256 public constant FireKEY = 1;
-    uint256 public constant IceKEY = 2;
-    uint256 public constant WoodenKEY = 3;
+    uint256 public constant FireKEY = 0;
+    uint256 public constant IceKEY = 1;
+    uint256 public constant WoodenKEY = 2;
 
+    //Turns on/off presalePrices
     bool public presaleActive;
-
-    //GOLD Max Supply
-    uint256 public constant GOLDMaxSupply = 9000000000;
 
     //KEY Max Supply
     uint256 public constant FKMaxSupply = 99;
@@ -1319,30 +1445,30 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
     uint256 public constant WKMaxSupply = 999;
 
     //Presale Fees
-    uint256 public constant FKFeePre = 54000000000000000000;
-    uint256 public constant IKFeePre = 24000000000000000000;
-    uint256 public constant WKFeePre = 7200000000000000000;
+    uint256 public  FKFeePre = 150000000000000000000;
+    uint256 public  IKFeePre = 48000000000000000000;
+    uint256 public  WKFeePre = 12000000000000000000;
     
     //Public Sale Fees
-    uint256 public constant FKFeeFinal = 90000000000000000000;
-    uint256 public constant IKFeeFinal = 30000000000000000000;
-    uint256 public constant WKFeeFinal = 9000000000000000000;
+    uint256 public  FKFeeFinal = 210000000000000000000;
+    uint256 public  IKFeeFinal = 60000000000000000000;
+    uint256 public  WKFeeFinal = 18000000000000000000;
     
     //Series FEE
     mapping(uint256 => uint256) public seriesFee;
 
     //GOLD Packs per KEY
-    uint256 public GoldPackFK = 27270000;
-    uint256 public GoldPackIK = 6485837;
-    uint256 public GoldPackWK = 1140426;
+    uint256 public GoldPackFK = 9897010000000000000000000;
+    uint256 public GoldPackIK = 2942354000000000000000000;
+    uint256 public GoldPackWK = 980785000000000000000000;
 
     //Stores Max Supply
     mapping(uint256 => uint256) public tokenMaxSupply;
 
     //Next ASSETS
-    uint256 private _currentTokenID = 3;
+    uint256 private _currentTokenID = 2;
 
-    constructor() ERC1155("https://thecryptotribe.xyz/{id}.json") {
+    constructor() ERC1155("https://gateway.pinata.cloud/ipfs/QmTthLJsBRo48qUthX3rCg3zewYnymYBMJBu88xuupDX9p/{id}.json") {
         //Sets name & symbol
         name = "Fables of Crypto";
         symbol = "FOC";
@@ -1351,15 +1477,12 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
         tokenMaxSupply[FireKEY] = FKMaxSupply;
         tokenMaxSupply[IceKEY] = IKMaxSupply;
         tokenMaxSupply[WoodenKEY] = WKMaxSupply;
-        tokenMaxSupply[GOLD] = GOLDMaxSupply;
-
+        
         //Mints Giveaway KEYS
-        _mint(msg.sender, FireKEY, 3, "");
-        _mint(msg.sender, IceKEY, 33, "");
-        _mint(msg.sender, WoodenKEY, 123, "");
+        _mint(msg.sender, FireKEY, 6, "");
+        _mint(msg.sender, IceKEY, 21, "");
+        _mint(msg.sender, WoodenKEY, 81, "");
 
-        //Mints TribeTasks + Giveaway GOLD
-        _mint(msg.sender, GOLD, 2998800000, "");
     }
 
     //Mints FireKEY and assigns Max Supply
@@ -1371,15 +1494,16 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
         uint256 feeToPay;
         if (presaleActive) {
             feeToPay = amount * FKFeePre;
-        } else {
+        } 
+        else {
             feeToPay = amount * FKFeeFinal;
         }
 
-        require(msg.value >= (feeToPay), "Insufficient ETH amount");
+        require(msg.value >= (feeToPay), "Insufficient MATIC amount");
         address to = msg.sender;
         uint256 goldToMint = GoldPackFK * amount;
         _mint(to, FireKEY, amount, "");
-        _mint(to, GOLD, goldToMint, "");
+         ierc20GOLD.transfer(to, goldToMint);
     }
 
     //Mints IceKEY and assigns Max Supply
@@ -1391,11 +1515,11 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
             feeToPay = amount * IKFeeFinal;
         }
 
-        require(msg.value >= (feeToPay), "Insufficient ETH amount");
+        require(msg.value >= (feeToPay), "Insufficient MATIC amount");
         address to = msg.sender;
         uint256 goldToMint = GoldPackIK * amount;
         _mint(to, IceKEY, amount, "");
-        _mint(to, GOLD, goldToMint, "");
+        ierc20GOLD.transfer(to, goldToMint);
     }
 
     //Mints WoodenKEY and assigns Max Supply
@@ -1407,17 +1531,17 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
             feeToPay = amount * WKFeeFinal;
         }
 
-        require(msg.value >= (feeToPay), "Insufficient ETH amount");
+        require(msg.value >= (feeToPay), "Insufficient MATIC amount");
         address to = msg.sender;
         uint256 goldToMint = GoldPackWK * amount;
         _mint(to, WoodenKEY, amount, "");
-        _mint(to, GOLD, goldToMint, "");
+        ierc20GOLD.transfer(to, goldToMint);
     }
 
     //Mints Series
     function mintSeries(uint256 amount, uint256 id) public payable {
-        require(id > 3, "You cannot mint that asset using this function");
-        require(msg.value >= (seriesFee[id]), "Insufficient ETH amount");
+        require(id > 2, "You cannot mint that asset using this function");
+        require(msg.value >= (seriesFee[id]), "Insufficient MATIC amount");
         _mint(msg.sender, id, amount, "");
     }
 
@@ -1435,7 +1559,7 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
         _currentTokenID++;
     }
     
-    //Creates Series, with a Max Supply, Initial supply, and ETH fee
+    //Creates Series, with a Max Supply, Initial supply, and Matic fee
     function createSeries(
         uint256 _maxSupply,
         uint256 _initialSupply,
@@ -1459,36 +1583,78 @@ contract FablesOfCrypto is ERC1155Supply, Ownable {
         presaleActive = _val;
     }
 
-    //Returns ETH Balance
-    function getETHBalance() public view returns (uint256) {
+    //Returns MATIC Balance
+    function getMATICBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
-    //Withdraws ETH balance to owner
-    function feedsDev() public onlyOwner {
+    //Withdraws MATIC balance to Owner
+    function feedsOwner() public onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
 
     //Changes the amount of GOLD that comes with each KEY
-    function changeGoldPack(uint8 keyId, uint256 newValue) public onlyOwner {
-        if (keyId == 1) {
-            GoldPackFK = newValue;
+    function changeGoldPack(uint8 _keyId, uint256 _newValue) public onlyOwner {
+        if (_keyId == 1) {
+            GoldPackFK = _newValue;
         }
-        if (keyId == 2) {
-            GoldPackIK = newValue;
+        if (_keyId == 2) {
+            GoldPackIK = _newValue;
         }
-        if (keyId == 3) {
-            GoldPackWK = newValue;
+        if (_keyId == 3) {
+            GoldPackWK = _newValue;
+        }
+    }
+
+    //Changes the final fee of each KEY
+    function changeKeyFeeFinal(uint8 _keyId, uint256 _newFee) public onlyOwner {
+        if (_keyId == 1) {
+            FKFeeFinal = _newFee;
+        }
+        if (_keyId == 2) {
+            IKFeeFinal = _newFee;
+        }
+        if (_keyId == 3) {
+            WKFeeFinal = _newFee;
+        }
+    }
+
+    //Changes the presale fee of each KEY 
+    function changeKeyFeePre(uint8 _keyId, uint256 _newFee) public onlyOwner {
+        if (_keyId == 1) {
+            FKFeePre = _newFee;
+        }
+        if (_keyId == 2) {
+            IKFeePre = _newFee;
+        }
+        if (_keyId == 3) {
+            WKFeePre = _newFee;
         }
     }
     
     //Burns tokens 
-    function burn(uint256 id, uint256 amount) public {
-        _burn(msg.sender, id, amount);
+    function burn(uint256 _id, uint256 _amount) public {
+        _burn(msg.sender, _id, _amount);
     }
 
     //Updates URI
-    function updateURI(string memory newuri) external onlyOwner{
-        _setURI(newuri);
+    function updateURI(string memory _newuri) external onlyOwner{
+        _setURI(_newuri);
     }
+
+    //Changes GOLD address
+    function changeGoldAddress(address _newAddress) public onlyOwner{
+        GOLD = _newAddress;
+    }
+
+    //Changes name
+    function changeName(string memory _newName) public onlyOwner{
+        name = _newName;
+    }
+
+    //Changes symbol
+    function changeSymbol(string memory _newSymbol) public onlyOwner{
+        symbol = _newSymbol;
+    }
+
 }
